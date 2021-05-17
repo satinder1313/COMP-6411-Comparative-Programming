@@ -12,6 +12,7 @@ class(machine).
 class(android).
 class(android2).
 
+
 implements(human,behavior).
 implements(machine,behavior).
 implements(android2,behavior2).

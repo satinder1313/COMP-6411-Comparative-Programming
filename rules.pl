@@ -13,19 +13,24 @@ work)
 
 /*1. empty class/1: Succeeds when a type defines no features
  */
-empty_class(X):- not(defines(X,_,_,_)),class(X).
+%empty_class(X):- not(defines(X,_,_,_)),class(X).
+empty_class(X):- class(X),findall(X, defines(X,_,_,_),L),length(L,N),N==0.
 
 /*2. lazy class/1: Succeeds when a type defines only one method.
  */
-lazy_class(X):-defines(X,A,method,_),defines(X,B,method,_),A\==B,!,fail.
-lazy_class(X):-defines(X,_,method,_).
+%lazy_class(X):- class(X),defines(X,A,method,_),defines(X,B,method,_),A\==B,!,fail.
+%lazy_class(X):- defines(X,_,method,_).
 
+
+lazy_class(X):-class(X),findall(X,defines(X,_,method,_),L),length(L,N),N==1.
 
 /*3. data type/1: Succeeds when a type defines attributes, but does not define any methods
  */
-data_type(X):- defines(X,_,method,_),!,fail.
-data_type(X):- defines(X,_,attribute,_).
-data_type(X):-class(X).
+%data_type(X):- defines(X,_,method,_),!,fail.
+%data_type(X):- defines(X,_,attribute,_).
+%data_type(X):-class(X).
+
+data_type(X):-class(X),findall(X,defines(X,_,method,_),L),length(L,N),N==0,findall(X,defines(X,_,attribute,_),L1),length(L1,N1),N1>=1.
 
 /*4. child/1 Succeeds by finding a set of direct subtype-supertype pairs.
 */
@@ -47,6 +52,9 @@ a class consists of all attributes defined or inherited.
 
 state_of(X,Y):-
 */
+%state_of(X,Y):- class(X),findall(X,defines(X,_,attribute,_),L).
+%state_of(X,Y):- class(X),findall(X,ancestor(X,_),L),findall(L,defines(L,_,attribute,_),Y).
+state_of(X,Y):- class(X),findall(X,ancestor(X,_),Y).
 
 /*8. interface of/2 Succeeds when List contains a list of all messages (method calls)
 that make up the interface of class Type.

@@ -2,14 +2,6 @@
 
 
 % 4.1 Declarative database
-/*
-interface(Type)
-class(Type)
-construction(Type, Signature)
-defines(Type, FeatureName, Kind, AccessType)
-extends(Subclass, Superclass)
-implements(Type,Interface)
-*/
 
 interface(behavior).
 interface(behavior2).
@@ -98,8 +90,3 @@ query: implements(X,behavior2).
 note: (use ; semicolon to print all) although it has only one value.
 */
 
-
-
-% 4.3 Extend the database with rules
-
-/*TODO */

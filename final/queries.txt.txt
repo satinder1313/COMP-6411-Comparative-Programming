@@ -1,0 +1,40 @@
+4.2 Queries
+----------------------------------------------------------------------------------
+1. What classes, if any, are present in the program ?
+
+TYPE: Non-ground
+QUERY: ?- setof(X,class(X),X).
+OUTPUT: X = ['Android', 'Android2', 'Bladerunner', 'Human', 'Machine'] 
+---------------------------------------------------------------------------------
+2. What methods, if any, does 'Human' define ?
+
+TYPE: Non-ground
+QUERY: ?- setof(X,defines('Human',X,method,_),X).
+OUTPUT: X = ['act()', 'hasEmpathy()', 'reason()'] 
+----------------------------------------------------------------------------------
+3. Does class 'Android' define an attribute named 'version'?
+
+TYPE: Ground
+QUERY: ?- defines('Android',version,attribute,_).
+OUTPUT: 
+Note: for "True" it shows empty but for "False", it shows "false" in output
+-----------------------------------------------------------------------------------
+4. Does the 'Machine' define a method named 'hasMemories()' ?
+
+TYPE: Ground
+QUERY: ?- defines('Machine', 'hasMemories()',method,_).
+OUTPUT: false.
+Note: for "True" it shows empty but for "False", it shows "false" in output
+-----------------------------------------------------------------------------------
+5. Which class, if any, extends class 'Human' ?
+
+TYPE: Non-ground
+QUERY: ?- setof(X,extends(X,'Human'),X).
+OUTPUT:X = ['Bladerunner'] .
+----------------------------------------------------------------------------------- 
+6. Which type, if any, implements interface Behavior2?
+
+TYPE: Non-ground
+QUERY: ?- setof(X,implements(X,'Behavior2'),X).
+OUTPUT: X = ['Android2'] 
+-----------------------------------------------------------------------------------

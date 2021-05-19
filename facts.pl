@@ -1,6 +1,4 @@
 % Ritika, Satinder, Binit, Nilesh
-
-
 % 4.1 Declarative database
 
 interface('Behavior').
@@ -12,7 +10,6 @@ class('Machine').
 class('Android').
 class('Android2').
 
-
 implements('Human','Behavior').
 implements('Machine','Behavior').
 implements('Android2','Behavior2').
@@ -20,7 +17,6 @@ implements('Android2','Behavior2').
 extends('Bladerunner','Human').
 extends('Android','Machine').
 extends('Android2','Android').
-
 
 defines('Behaviour','act()',method,public).
 defines('Behaviour','reason()',method,public).

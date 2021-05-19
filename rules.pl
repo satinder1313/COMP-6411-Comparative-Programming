@@ -66,11 +66,16 @@ that make up the interface of class Type.
 
 interface_of(X,Y):-
 */
+interface_of(X,Interface):-findall(L,(defines(X,L,method,public);(extends(X,Y),defines(Y,L,method,public));(implements(X,Z),defines(Z,L,method,public))),Interface).
+
 
 /*9. siblings/1: Succeeds by obtaining a pair of sibling types.
 
 siblings(X):-
 */
+%siblings(S):- findall(S,((class(S),interface(X),implements(S,X));(class(S),interface(Y),implements(S,Y))), S).
+siblings(S):-findall(Siblings, (bagof(C, implements(F,C)), Siblings), S).
+
 
 /*10. instantiated polymorphically /1: Succeeds when a type is instantiated using polymorphism
  */

@@ -50,11 +50,16 @@ ancestor(X, Y) :- child(Z,X), ancestor(Z, Y).
 /*7. state of/2: Succeeds by obtaining the state of a given type. Recall that the state of
 a class consists of all attributes defined or inherited.
 
+
 state_of(X,Y):-
 */
 %state_of(X,Y):- class(X),findall(X,defines(X,_,attribute,_),L).
 %state_of(X,Y):- class(X),findall(X,ancestor(X,_),L),findall(L,defines(L,_,attribute,_),Y).
-state_of(X,Y):- class(X),findall(X,ancestor(X,_),Y).
+%state_of(X,Y):- class(X),findall(Y,defines(X,Y,attribute,_), Y).
+%state_of(X,Y):- class(X),findall(Y,defines(X,Y,attribute,_), Y).
+%class(X),ancestor(Parent,X),findall(Y,defines(L,Y,attribute,_), Y).
+
+state_of(X,States):-findall(L,(defines(X,L,attribute,public);(extends(X,Y),defines(Y,L,attribute,public));(implements(X,Z),defines(Z,L,attribute,public))),States).
 
 /*8. interface of/2 Succeeds when List contains a list of all messages (method calls)
 that make up the interface of class Type.
@@ -81,6 +86,11 @@ root(X):-is_type(X),not(extends(X,_)),not(implements(X,_)).
 
 /*12. provides interface/2: Succeeds by obtaining a list of all classes that implement a
 given interface
-
+% append  two list.
  provides_interface(X,Y):-
 */
+provides_interface(X, Y) :-
+    findall(L, implements(L, X), M),
+    findall(Name, (member(N, M), ancestor(N, Name)), Desc),
+    append(M, Desc, Y);
+    false.

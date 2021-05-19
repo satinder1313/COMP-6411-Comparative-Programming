@@ -1,0 +1,57 @@
+4.2 Executing queries
+
+1. What classes, if any, are present in the program ?
+query: class(X).
+type: Non-ground query
+note: (use ; semicolon to print all)
+Output: 
+?- class(X).
+X = 'Human' ;
+X = 'Bladerunner' ;
+X = 'Machine' ;
+X = 'Android' ;
+X = 'Android2' ;
+false.
+
+2. What methods, if any, does 'Human' define ?
+query: defines('Human',X,method,_).
+type: Non-ground query
+note: (use ; semicolon to print all)
+Output:
+?- defines('Human',X,method,_).
+X = 'act()' ;
+X = 'reason()' ;
+X = 'hasEmpathy()' ;
+false.
+
+3. Does class 'Android' define an attribute named 'version'?
+query: defines('Android',version,attribute,_).
+type: ground query
+note: if it doesn't print false means it is true ? (cuz wrong value is return false) like this query: defines(android,version2,attribute,_).
+Output:
+?- defines('Android',version,attribute,_).
+
+4. Does the 'Machine' define a method named 'hasMemories()' ?
+query: defines('Machine', 'hasMemories()',method,_).
+type: ground query
+note: result should be false, because machine doesn't have a method named 'hasMemories'
+Output:
+?- defines('Machine', 'hasMemories()',method,_).
+
+5. Which class, if any, extends class 'Human' ?
+query: extends(X,'Human').
+type: Non-ground query
+note: (use ; semicolon to print all) although it has only one value.
+Output:
+?- extends(X,'Human').
+X = 'Bladerunner' ;
+false.
+
+6. Which type, if any, implements interface Behavior2?
+query: implements(X,'Behavior2').
+type: Non-ground query
+note: (use ; semicolon to print all) although it has only one value.
+Output:
+?- implements(X,'Behavior2').
+X = 'Android2' ;
+false.

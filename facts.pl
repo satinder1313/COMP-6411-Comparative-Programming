@@ -31,29 +31,29 @@ defines('Bladerunner',type,attribute,public).
 defines('Bladerunner',rank,attribute,public).
 defines('Bladerunner','reason()',method,public).
 
-defines(machine,type,attribute,public).
+defines('Machine',type,attribute,public).
 
-defines(android,version,attribute,public).
-defines(android,'whatIhave()',method,public).
-defines(android,'whatIneed()',method,public).
-defines(android,'act()',method,public).
-defines(android,'reason()',method,public).
+defines('Android',version,attribute,public).
+defines('Android','whatIhave()',method,public).
+defines('Android','whatIneed()',method,public).
+defines('Android','act()',method,public).
+defines('Android','reason()',method,public).
 
-defines(behavior2,empathy,attribute,public).
-defines(behavior2,memories,attribute,public).
-defines(behavior2,'hasEmpathy()',method,public).
-defines(behavior2,'hasMemories()',method,public).
+defines('Behavior2',empathy,attribute,public).
+defines('Behavior2',memories,attribute,public).
+defines('Behavior2','hasEmpathy()',method,public).
+defines('Behavior2','hasMemories()',method,public).
 
-defines(android2,'whatIhave()',method,public).
-defines(android2,'hasEmpathy()',method,public).
-defines(android2,'hasMemories()',method,public).
+defines('Android2','whatIhave()',method,public).
+defines('Android2','hasEmpathy()',method,public).
+defines('Android2','hasMemories()',method,public).
 
-construction(bladerunner,default).
-construction(bladerunner,'string').
+construction('Bladerunner',default).
+construction('Bladerunner','string').
 
-construction(android,'int').
-construction(android2,'int').
-construction(android2,default).
+construction('Android','int').
+construction('Android2','int').
+construction('Android2',default).
 
 
 % 4.2 Executing queries

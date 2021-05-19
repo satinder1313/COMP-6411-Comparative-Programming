@@ -4,32 +4,16 @@
 
 :- consult(facts).
 
-/*TODO
-For empty_class, lazy_class and data_type- functionality works if
-element is added in input else to print the all(for input as
-variable to print all those who satisy the functionality still does not
-work)
-*/
-
 /*1. empty class/1: Succeeds when a type defines no features
  */
-%empty_class(X):- not(defines(X,_,_,_)),class(X).
 empty_class(X):- class(X),findall(X, defines(X,_,_,_),L),length(L,N),N==0.
 
 /*2. lazy class/1: Succeeds when a type defines only one method.
  */
-%lazy_class(X):- class(X),defines(X,A,method,_),defines(X,B,method,_),A\==B,!,fail.
-%lazy_class(X):- defines(X,_,method,_).
-
-
 lazy_class(X):-class(X),findall(X,defines(X,_,method,_),L),length(L,N),N==1.
 
 /*3. data type/1: Succeeds when a type defines attributes, but does not define any methods
  */
-%data_type(X):- defines(X,_,method,_),!,fail.
-%data_type(X):- defines(X,_,attribute,_).
-%data_type(X):-class(X).
-
 data_type(X):-class(X),findall(X,defines(X,_,method,_),L),length(L,N),N==0,findall(X,defines(X,_,attribute,_),L1),length(L1,N1),N1>=1.
 
 /*4. child/1 Succeeds by finding a set of direct subtype-supertype pairs.
@@ -49,33 +33,17 @@ ancestor(X, Y) :- child(Z,X), ancestor(Z, Y).
 
 /*7. state of/2: Succeeds by obtaining the state of a given type. Recall that the state of
 a class consists of all attributes defined or inherited.
-
-
-state_of(X,Y):-
 */
-%state_of(X,Y):- class(X),findall(X,defines(X,_,attribute,_),L).
-%state_of(X,Y):- class(X),findall(X,ancestor(X,_),L),findall(L,defines(L,_,attribute,_),Y).
-%state_of(X,Y):- class(X),findall(Y,defines(X,Y,attribute,_), Y).
-%state_of(X,Y):- class(X),findall(Y,defines(X,Y,attribute,_), Y).
-%class(X),ancestor(Parent,X),findall(Y,defines(L,Y,attribute,_), Y).
-
 state_of(X,States):-findall(L,(defines(X,L,attribute,public);(extends(X,Y),defines(Y,L,attribute,public));(implements(X,Z),defines(Z,L,attribute,public))),States).
 
 /*8. interface of/2 Succeeds when List contains a list of all messages (method calls)
 that make up the interface of class Type.
-
-interface_of(X,Y):-
 */
-interface_of(X,Interface):-findall(L,(defines(X,L,method,public);(extends(X,Y),defines(Y,L,method,public));(implements(X,Z),defines(Z,L,method,public))),Interface).
-
+interface_of(X,Interface):-findall(L,(defines(X,L,method,public);(extends(X,Y),defines(Y,L,method,public));(implements(X,Z),defines(Z,L,method,public))),List),list_to_set(List,Interface).
 
 /*9. siblings/1: Succeeds by obtaining a pair of sibling types.
-
-siblings(X):-
 */
-%siblings(S):- findall(S,((class(S),interface(X),implements(S,X));(class(S),interface(Y),implements(S,Y))), S).
-siblings(S):-findall(Siblings, (bagof(C, implements(F,C)), Siblings), S).
-
+siblings(Set):-setof((X,Y),(implements(X,A),implements(Y,A),X\==Y),Set).
 
 /*10. instantiated polymorphically /1: Succeeds when a type is instantiated using polymorphism
  */
@@ -91,8 +59,6 @@ root(X):-is_type(X),not(extends(X,_)),not(implements(X,_)).
 
 /*12. provides interface/2: Succeeds by obtaining a list of all classes that implement a
 given interface
-% append  two list.
- provides_interface(X,Y):-
 */
 provides_interface(X, Y) :-
     findall(L, implements(L, X), M),

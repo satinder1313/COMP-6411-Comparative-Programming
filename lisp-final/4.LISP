@@ -1,9 +1,10 @@
 ;question number 4
 
 (defun dist(n lst)
-  (if (atom n)
-      (if listp ( lst )
-        (cdr ( lst ))
-        )))
+  (cond ((and (atom n) (> (length lst) 0))
+      (format t "~% n is an atom and a list ") (cons (cons n (car lst)) (dist n (cdr lst))))
+      (t (format t "~% no case is true" n))
+  )      
+)
 
-(dist (2, list(a b c d)))
+(write(dist 40 '(a b c)))

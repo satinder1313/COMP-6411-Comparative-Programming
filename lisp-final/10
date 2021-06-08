@@ -1,0 +1,18 @@
+;question-10
+
+(defun left-subtree(tree)
+(cond ((null tree) NIL)
+(t (car (cdr tree)))))
+
+(defun right-subtree(tree)
+(cond((null tree) NIL)
+(t (car (cdr (cdr tree))))))
+
+(defun postorder(tree)
+(cond ((null tree) NIL)
+((not (listp tree)) NIL)
+(t (append  (postorder (left-subtree tree))  (postorder (right-subtree tree)) (list (car tree)))))) 
+
+
+;test
+(print (postorder '(40 (30 (25 () ()) (35 () ())) (60 (50 () ()) ()))))

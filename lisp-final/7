@@ -1,0 +1,13 @@
+;question-7
+
+(defun filter (lst1 elt)
+(cond ((null lst1) nil)
+((not (typep lst1 'list)) nil)
+((listp elt) nil)
+((< elt 1) nil)
+((not (typep elt 'integer)) nil)
+((> (car lst1) elt)(cons (car lst1) (filter (cdr lst1) elt)))
+(t (filter (cdr lst1) elt))))
+
+;test
+(print (filter '(12 9 3 2 7) '4))

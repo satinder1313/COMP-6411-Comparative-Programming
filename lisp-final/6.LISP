@@ -1,15 +1,10 @@
 ;question-6
 
 (defun oseq(n)
-  (let ((i 0) (lst '()))
-    (loop 
-     (when (> i n ) lst  (return))
-     (print lst) (append lst (list i))
-     (incf i)
-    )
-  )
-)
-
+  (cond ((= n 1) nil)
+    (t (loop for i from 1 to n
+      when (/= (mod i 2) 0) collect i))))       
 
 ;test
 (print (oseq 5))
+(print (oseq 0))

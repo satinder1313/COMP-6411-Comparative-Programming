@@ -1,9 +1,12 @@
 ; question 5
 
 (defun rem-if-dupl(lst)
-  (cond ((> (length lst) 0)
-        (delete-duplicates lst))
-  )
+  (if lst
+      (if (member (car lst) (cdr lst))
+          (cons (car lst) (rem-if-dupl (vl-remove (car lst) (cdr lst))))
+          (rem-if-dupl (vl-remove (car lst) (cdr lst)))
+      )
+   ) 
 )
 
 ;(print (rem-if-dupl nil))

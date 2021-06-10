@@ -11,34 +11,15 @@
 )
 
 ;test of above function
-(print (remove-all-occurrences `(1 2 3 4 4) 4))
-
-
-; global variable of duplicates
-(setq duplicates `())
-
-; helper function to find all the duplicates elements 
-(defun find-duplicates(lst elt)
-  (if (null lst)
-   nil
-  (if (equal (car lst) (car (cdr lst)))
-     (cons (car lst) (find-duplicates (cdr lst) nil ))
-     (find-duplicates (cdr lst) ())
-   )
-  )
-)
-
-;test of helper function
-(print (find-duplicates  `(1 2 3 4 4) nil))
-(print (find-duplicates  `(1 2 3 4 2) nil))
-(print (find-duplicates  `(1 1 2 2 3 3 4 5 6 6 7) nil))
+;(print (remove-all-occurrences `(1 2 3 4 4) 4))
 
 
 ; main function that find duplicates and remove all its occurrences 
-(defun rem-if-dupl(lst)
-  (if (null lst)
-     nil
-    (remove-all-occurrences lst (car (find-duplicates lst nil)))
+(defun rem-if-dupl(arg)
+  (cond ((null arg) nil)
+        ((member (car arg) (cdr arg))
+        (rem-if-dupl (remove-all-occurrences (cdr arg) (car arg))))
+        (t (cons (car arg) (rem-if-dupl (cdr arg))))
   )
 )
 

@@ -10,6 +10,10 @@
    )
 )
 
+;Sample test cases
+;(consR '(1 2 3) 3)
+;(consR '(1 2 3) '(3 4))
+
 
 ;---------------------question-2---------------------
 
@@ -23,6 +27,10 @@
 	(apply (fn (car args)) args)
 )
 
+;Sample test cases
+;(combine 2 3 4)
+;(combine '(a b) '(c d))
+
 
 ;---------------------question-3---------------------
 
@@ -31,6 +39,10 @@
 	      ((null lst2) lst1)
 	      ((> (car lst1) (car lst2))(cons (car lst1) (combine-max (cdr lst1) (cdr lst2))))
 	      (t (cons (car lst2) (combine-max (cdr lst1) (cdr lst2))))))
+
+;Sample test cases
+;(combine-max '(4 6 8 9 2) '(5 1))
+;(combine-max '() '(6 1 9))
 
 
 ;---------------------question-4---------------------
@@ -41,6 +53,9 @@
       (t (format t "~% output: " n))
   )      
 )
+
+;Sample test cases
+;(dist 'a '(b c d))
 
 
 ;---------------------question-5---------------------
@@ -62,6 +77,10 @@
   )
 )
 
+;Sample test cases
+;(print (rem-if-dupl '(1 2 2 3 4)))
+;(print (rem-if-dupl '(1 1)))
+
 
 ;---------------------question-6---------------------
 
@@ -79,6 +98,10 @@
  (defun oseq (num)
 (reverse2 (bsequence (- num 1))))
 
+;Sample test cases
+;(print (oseq 10))
+;(print (oseq 2))
+
 
 ;---------------------question-7---------------------
 
@@ -90,6 +113,10 @@
        ((not (typep elt 'integer)) nil)
        ((> (car lst1) elt)(cons (car lst1) (filter (cdr lst1) elt)))
        (t (filter (cdr lst1) elt))))
+
+;Sample test cases
+;(filter '(7 9 11) '(2))
+;(filter '(5 9 3 2 11) '7)
 
 
 ;---------------------question-8---------------------
@@ -146,6 +173,10 @@
     )
 )
 
+;Sample test cases
+;(print (is-bst '(1 (0) (3)) ))
+;(print (is-bst '(1 (0) (3 (4))) ))
+
 
 ;---------------------question-9---------------------
 
@@ -158,22 +189,16 @@
     )
 )
 
-(defun absValue (value)
-    (COND
-    ((NOT (NUMBERP value)) value)
-    ((< value 0) (- 0 value))
-    (value)
-    )
-)
-
-(defun height (tree)
+ (defun height (tree)
     (COND
         ((NULL tree) 0)
-        ((OR (EQUAL -1 (height (CADR tree))) (EQUAL -1 (height (CADDR tree)))) -1)
-        ((> (absValue (- (height (CADR tree)) (height (CADDR tree)))) 1) -1)
         ((+ 1 (getMax (height (CADR tree)) (height (CADDR tree)))))
     )
 )
+
+;Sample test cases
+;(height '(1 (0) (3 (4))))
+;(height '())
 
 
 ;---------------------question-10---------------------
@@ -190,3 +215,7 @@
 	(cond ((null tree) NIL)
 		  ((not (listp tree)) NIL)
 		  (t (append  (postorder (left-subtree tree)) (postorder (right-subtree tree)) (list (car tree)))))) 
+
+;Sample test cases
+;(postorder '(3 (2 (1 () ()) ()) (5 () ())))
+;(postorder '(1 (0) (3)))

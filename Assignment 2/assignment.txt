@@ -22,6 +22,7 @@ dist(w, (x , y))= cons((w,x) , dist(w, (y)))
 				= cons ((w,x) , (w,y))
 				= ((w,x) , (w,y))
 
+c> <implemention is in another file functions.txt>
 
 d> We can trace the execution of (dist 'a '(b c d)) as follows-
 
@@ -49,7 +50,10 @@ d> We can trace the execution of (dist 'a '(b c d)) as follows-
 -----------------------------------------------------------------------------------
 9. A recursive definition of a procedure to calculate the height of the tree is defined as follows-
 
-
+Defining function mathematically
+Base Case: if tree is null, return 0
+		 : getMax(left, right) returns left if left>=right else returns right
+Recursive Case: height(tree) = 1+ getMax (height(left-sub-tree), height(right-sub-tree))
 
 
 

@@ -1,0 +1,56 @@
+Non-coding components of the problems.
+----------------------------------------------------------------------------------
+1.a> A recursive computable function definition for consR(L, e) (in mathe-
+matical notation) is defines as follows-
+
+Defining function mathematically
+Base Case: f(nil lst1) = lst2
+Recursive Case: f(n) = (cons (car lst1) (append2 (cdr lst1) lst2))
+---------------------------------------------------------------------------------
+4.a> A recursive computable function for dist is defined as follows-
+
+Defining function mathematically
+Base Case: if n is not an atom or length of list is 0 then return nil
+Recursive Case: dist(n lst) = (cons (cons n (car lst)) (dist n (cdr lst)))
+
+
+b> We can unfold the definition of dist(w, (x , y)) as follows- 
+
+dist(w, (x , y))= cons((w,x) , dist(w, (y)))
+				= cons((w,x) , (cons (w,y) dist(w, ()))
+				= cons((w,x) , cons((w,y) ())
+				= cons ((w,x) , (w,y))
+				= ((w,x) , (w,y))
+
+
+d> We can trace the execution of (dist 'a '(b c d)) as follows-
+
+(dist 'a '(b c d))= (cons (cons 'a 'b) (dist 'a '(c d)))
+				  = (cons '(a b) (cons (cons 'a 'c) (dist 'a '(d))))
+				  = (cons '(a b) (cons (cons 'a 'c) (cons (cons 'a 'd) (dist 'a '()))))
+				  = (cons '(a b) (cons (cons 'a 'c) (cons (cons 'a 'd) ())))
+				  = (cons '(a b) (cons (cons 'a 'c) (cons '(a d) '())))
+				  = (cons '(a b) (cons (cons 'a 'c) '(a d)))
+				  = (cons '(a b) (cons '(a c) '(a d)))
+				  = (cons '(a b) '((a c) (a d)))
+				  = ((a b) (a c) (a d))
+----------------------------------------------------------------------------------
+7. We can trace the execution of (filter '(12 9 3 2 7) '4) as follows-
+
+(filter '(12 9 3 2 7) '4)= (cons '12 (filter '(9 3 2 7) '4))
+						 = (cons '12 (cons '9 (filter '(3 2 7) '4)))
+						 = (cons '12 (cons '9 (filter '(2 7) '4)))
+						 = (cons '12 (cons '9 (filter '(7) '4)))
+						 = (cons '12 (cons '9 (cons '7 filter('() '4))))
+						 = (cons '12 (cons '9 (cons '7 '())))
+						 = (cons '12 (cons '9 '(7)))
+						 = (cons '12 '(9, 7))
+						 = (12, 9, 7)
+-----------------------------------------------------------------------------------
+9. A recursive definition of a procedure to calculate the height of the tree is defined as follows-
+
+
+
+
+
+-----------------------------------------------------------------------------------

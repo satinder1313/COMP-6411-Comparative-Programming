@@ -1,0 +1,192 @@
+;functions of Assignment 2
+
+
+;---------------------question-1---------------------
+
+(defun consr(lst1 elt)
+  (if(null lst1)
+    (cons elt '())
+    (cons (car lst1) (consr (cdr lst1) elt))
+   )
+)
+
+
+;---------------------question-2---------------------
+
+(defun fn (obj)
+	(typecase obj
+        (cons #'append)
+        (number #'+))
+)
+
+(defun combine (&rest args)
+	(apply (fn (car args)) args)
+)
+
+
+;---------------------question-3---------------------
+
+(defun combine-max(lst1 lst2)
+	(cond ((null lst1) lst2)
+	      ((null lst2) lst1)
+	      ((> (car lst1) (car lst2))(cons (car lst1) (combine-max (cdr lst1) (cdr lst2))))
+	      (t (cons (car lst2) (combine-max (cdr lst1) (cdr lst2))))))
+
+
+;---------------------question-4---------------------
+
+(defun dist(n lst)
+  (cond ((and (atom n) (> (length lst) 0))
+      (cons (cons n (car lst)) (dist n (cdr lst))))
+      (t (format t "~% output: " n))
+  )      
+)
+
+
+;---------------------question-5---------------------
+
+(defun remove-all-occurrences( lst elt)
+  (if (null lst)
+  nil
+  (if (equal (car lst) elt)
+      (remove-all-occurrences (cdr lst) elt)
+      (cons (car lst) (remove-all-occurrences (cdr lst) elt))
+  ))
+)
+
+(defun rem-if-dupl(arg)
+  (cond ((null arg) nil)
+        ((member (car arg) (cdr arg))
+        (rem-if-dupl (remove-all-occurrences (cdr arg) (car arg))))
+        (t (cons (car arg) (rem-if-dupl (cdr arg))))
+  )
+)
+
+
+;---------------------question-6---------------------
+
+(defun bsequence (n)
+(if (<= n 0)
+(return-from bsequence '())
+(if (oddp n)
+(cons n (bsequence (- n 1)))
+(return-from bsequence (bsequence (- n 1))))))
+
+(defun reverse2 (lst)
+(cond ((null lst) ’())
+(t (append (reverse2 (cdr lst)) (list (car lst))))))
+
+ (defun oseq (num)
+(reverse2 (bsequence (- num 1))))
+
+
+;---------------------question-7---------------------
+
+(defun filter (lst1 elt)
+ (cond ((null lst1) nil)
+       ((not (typep lst1 'list)) nil)
+       ((listp elt) nil)
+       ((< elt 1) nil)
+       ((not (typep elt 'integer)) nil)
+       ((> (car lst1) elt)(cons (car lst1) (filter (cdr lst1) elt)))
+       (t (filter (cdr lst1) elt))))
+
+
+;---------------------question-8---------------------
+
+(defun LTree (X)
+    (if (endp X)
+        '()
+        (car (cdr X))
+    )
+)
+
+(defun RTree (X)
+    (if (endp X)
+        '()
+        (car (cdr (cdr X)))
+    )
+)
+
+(defun greater1 (element X)
+    (if (endp X)
+        t
+        (and (> (car X) element)
+             (greater1 element (LTree X))
+             (greater1 element (RTree X))
+        )
+    )
+)
+
+(defun smaller1 (element X)
+    (if (endp X)
+        t
+        (and (<= (car X) element)
+             (smaller1 element (LTree X))
+             (smaller1 element (RTree X))
+        )
+    )
+)
+
+(defun isBinarySearchTree (X)
+    (if (endp X)
+        t
+        (and (smaller1 (car X) (LTree X))
+             (greater1 (car X) (RTree X))
+             (isBinarySearchTree (LTree X))
+             (isBinarySearchTree (RTree X))
+        )
+    )
+)
+
+(defun is-bst (X)
+    (if (isBinarySearchTree X)
+        'YES
+        'NO
+    )
+)
+
+
+;---------------------question-9---------------------
+
+(defun getMax (x y)
+    (COND
+        ((NOT (NUMBERP x)) y)
+        ((NOT (NUMBERP y)) x)
+        ((>= x y) x)
+        (y)
+    )
+)
+
+(defun absValue (value)
+    (COND
+    ((NOT (NUMBERP value)) value)
+    ((< value 0) (- 0 value))
+    (value)
+    )
+)
+
+(defun height (tree)
+    (COND
+        ((NULL tree) 0)
+        ((OR (EQUAL -1 (height (CADR tree))) (EQUAL -1 (height (CADDR tree)))) -1)
+        ((> (absValue (- (height (CADR tree)) (height (CADDR tree)))) 1) -1)
+        ((+ 1 (getMax (height (CADR tree)) (height (CADDR tree)))))
+    )
+)
+
+
+;---------------------question-10---------------------
+
+(defun left-subtree(tree)
+	(cond ((null tree) NIL)
+		  (t (car (cdr tree)))))
+
+(defun right-subtree(tree)
+	(cond ((null tree) NIL)
+		  (t (car (cdr (cdr tree))))))
+
+(defun postorder(tree)
+	(cond ((null tree) NIL)
+		  ((not (listp tree)) NIL)
+		  (t (append  (postorder (left-subtree tree)) (postorder (right-subtree tree)) (list (car tree)))))) 

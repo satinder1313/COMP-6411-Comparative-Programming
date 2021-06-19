@@ -40,8 +40,25 @@ element lasel(list l) {
 	element val;
 	val.type = ATOM;
 	val.l = l;
-	printf("lasel:: val : %c\n", val.a);
+	printf("lasel:: val : %c \n", val.a);
 	return val;	
+}
+
+/* 3. list cons(element e, list l); that creates a new list whose car and cdr are the
+element e and the list l . While the memory for the newly created list is to be allocated
+dynamically.
+*/
+list cons(element e, list l) {
+	e.l = l;
+	list new_list;
+	new_list = (list)malloc(sizeof(struct _listnode));
+	new_list->el = e;
+	new_list->next = l;
+
+	printf("cons :: new list %c \n", new_list->el.a);
+	printf("cons :: new list %c \n", new_list->next->el.a);
+	return new_list;
+
 }
 
 void main() {
@@ -59,5 +76,10 @@ void main() {
 	l1->next = NULL;
 	element x2 = lasel(l1);
 	printf("element's atom %c\n", l1->el.a);	
+
+	// 3. cons
+	atom b = 'B';
+	element x3 = aasel(b);
+	list l2 = cons(x3, l1);
 }
 

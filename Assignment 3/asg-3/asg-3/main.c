@@ -61,9 +61,15 @@ copies of elements in l2 and l2, appended.
 
  TODO : revise this !
 */
-list append(list l1 , list l2) {
-	l1->next = l2;
-	return l1;
+list append(list l1, list l2) {
+	list new_list = l1;
+	if (l1 == NULL) {
+		new_list = l2;
+	}
+	else {
+		new_list->next = l2;
+	}
+	return new_list;
 }
 
 /* 5. element car(element e); that returns head of the list, represented by e; returns
@@ -81,9 +87,10 @@ element car(element e) {
 /* 6. list cdr(element e); that returns tail of the list, represented by e.
 */
 list cdr(element e) {
-	if (e.type == LIST) {
+	if (e.type == LIST) 
+	{
 		return e.l;
-	}	
+	}	   
 }
 
 /* 7. list cddr(element e); that similarly returns the cddr of the list, represented by e.
@@ -91,8 +98,12 @@ list cdr(element e) {
 list cddr(element e) {
 	// CDDR is composition of two CDR i.e. (CDR (CDR X))
 	list new_list = cdr(e);
-	return cdr(new_list->el);
-
+	if (new_list != NULL){
+		return cdr(new_list->el);
+	}
+	else{
+		return NULL;
+	}
 }
 
 /* 8. void print(e); that prints the content of the element e. If e is an atom, it prints the
@@ -117,10 +128,11 @@ void print(element e) {
 /* 9. void free(LIST l); that frees all the memory previously allocated by the whole list
 (including all its elements and its inner lists) 
 */
-void free(list l) {
+void lfree(list l) {
 	if (l != NULL) {
 		list new_list = l->next;
-		free(new_list);
+		free(l);
+		lfree(new_list);
 	}
 }
 
@@ -130,17 +142,29 @@ void main() {
 	// 1. test aasel
 	atom a = 'A';
 	element x1 = aasel(a);
-	printf("assel's atom: %c\n", x1.a);
+	print(x1);
 	
 	// 2. test  lasel
 	list l1 = (list)malloc(sizeof(struct _listnode)); 
 	l1->el = aasel(a);
 	element x2 = lasel(l1);
-	printf("lasel's list  %c\n", l1->el.a);	
+	print(x2);
 
 	// 3. test  cons
 	atom b = 'B';
 	element x3 = aasel(b);
 	list l2 = cons(x3, l1);
+
+	//4. test append
+
+	//5. test car 
+
+	//6. test cdr
+
+	//7. test cddr
+
+	//8. test print
+
+	//9. test free
 }
 

@@ -36,7 +36,10 @@ element aasel(atom a) {
 set to the list, pointed by l .
 */
 element lasel(list l) {
-	element val = { .type = LIST, .l = l };
+	element val;
+	val.type = LIST;
+	val.l = l;
+	//val.a = NULL;
 	return val;	
 }
 
@@ -45,9 +48,7 @@ element e and the list l . While the memory for the newly created list is to be 
 dynamically.
 */
 list cons(element e, list l) {
-	e.l = l;
-	list new_list;
-	new_list = (list)malloc(sizeof(struct _listnode));
+	list new_list = (list)malloc(sizeof(struct _listnode));
 	new_list->el = e;
 	new_list->next = l;
 
@@ -142,26 +143,30 @@ void main() {
 	// 1. test aasel
 	printf("--------test1---------\n");
 	atom a = 'A';
-	element x1 = aasel(a);
-	print(x1);
+	element e1 = aasel(a);
+	print(e1);
 		
 	// 2. test  lasel
 	printf("--------test2---------\n");
 	list l1 = (list)malloc(sizeof(struct _listnode)); 
-	l1->el = aasel(a);
-	element x2 = lasel(l1);
-	print(x2);
+	l1->el = aasel('B');
+	l1->next = NULL;
+	element e2 = lasel(l1);
+	print(e2);
 	
 	// 3. test  cons
 	printf("--------test3---------\n");
-	atom b = 'B';
-	element x3 = aasel(b);
-	list l2 = cons(x3, l1);
+	atom c = 'C';
+	element x3 = aasel(c);
+	list l2 = (list)malloc(sizeof(struct _listnode));
+	l2->el = aasel('D');
+	list l3 = cons(x3, l2);
+	print(l3->el);
+	print(l3->next->el);
 
 	//4. test append
 	printf("--------test4---------\n");
-	list l3 = append(l1, l2);
-	//print(l3->el);
+	
 	
 	//5. test car 
 	printf("--------test5---------\n");

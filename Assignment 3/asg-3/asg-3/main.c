@@ -104,18 +104,19 @@ element car(element e) {
 	if (e.type == LIST) {
 		return e.l->el;
 	}
-	else {
-		return NIL;
-	}
+	return NIL;
 }
 
 /* 6. list cdr(element e); that returns tail of the list, represented by e.
 */
 list cdr(element e) {
-	if (e.type == LIST) 
-	{
-		return e.l;
-	}	   
+	if (e.type != LIST) {
+		return NULL;
+	}
+	else if (e.l == NULL) {
+		return NULL;
+	}
+	return e.l->next;
 }
 
 /* 7. list cddr(element e); that similarly returns the cddr of the list, represented by e.
@@ -204,19 +205,16 @@ void main() {
 	list c_l = create_list(aasel('c'));
 	list sub_first = cons(aasel('b'), c_l);
 	list d_l = create_list(aasel('d'));
-	sub_first->next = d_l;
-	list first = cons(aasel('a'), sub_first);
-	
-	
+	list tail = cons(lasel(sub_first), d_l);
+	list first = cons(aasel('a'), tail);
+		
 	// TODO: Isn't print() function supposed to print everything ? 
-	
 	list temp = first;
 	while (temp != NULL) {
 		print(temp->el);
 		temp = temp->next;
 	}
 	
-
 	// wrong expected output here 
 	list second = create_list(aasel('e'));
 	list f_l = create_list(aasel('f'));
@@ -231,21 +229,36 @@ void main() {
 		temp2 = temp2->next;
 	}
 	
-
-
 	
-
-	
-	
-
-
 	
 	//5. test car 
+	//  Input: (1 2 3)  Output: (1)
 	printf("--------test5---------\n");
-	
-	//6. test cdr
-	printf("--------test6---------\n");
+	list one = create_list(aasel('1'));
+	list two = create_list(aasel('2'));
+	list three = create_list(aasel('3'));
+	one->next = two;
+	two->next = three;
+	print(car(lasel(one)));
 
+
+	//6. test cdr
+	//  Input: (5 6 7)  Output: (6 7)
+	printf("--------test6---------\n");
+	list five= create_list(aasel('5'));
+	list six = create_list(aasel('6'));
+	list seven = create_list(aasel('7'));
+	five->next = six;
+	six->next = seven;
+
+	//TODO: Isn't print function supposed to do following .. ?
+	//print(cdr(lasel(eleven)));
+	list list6 = cdr(lasel(five));
+	while (list6 != NULL) {
+		print(list6->el);
+		list6 = list6->next;
+	}
+	
 	//7. test cddr
 	printf("--------test7---------\n");
 

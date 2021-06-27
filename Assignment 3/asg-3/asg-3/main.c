@@ -123,13 +123,7 @@ list cdr(element e) {
 */
 list cddr(element e) {
 	// CDDR is composition of two CDR i.e. (CDR (CDR X))
-	list new_list = cdr(e);
-	if (new_list != NULL){
-		return cdr(new_list->el);
-	}
-	else{
-		return NULL;
-	}
+	return cdr(lasel(cdr(e)));
 }
 
 /* 8. void print(e); that prints the content of the element e. If e is an atom, it prints the
@@ -137,17 +131,25 @@ symbol enclosed in spaces, and if e it is a list, if prints recursively prints t
 of the list enclosed in parentheses. If e is NIL, the word \NIL" must be printed.
 */
 void print(element e) {
-	if (e.type == ATOM) {
-		printf(" (%c)  \n", e.a);
-	}
-	else if (e.type == LIST) {
+	if (e.type == LIST) {
 		if (e.l == NULL) {
-			printf("\\NIL \n");
+			printf(" \\NIL \n");
+			return;
 		}
-		else {
-			printf(" (%c)  \n", e.a);
-			print(e.l->el);
-		}		
+	}
+			
+	if (e.type == ATOM) {
+		printf(" %c ", e.a);
+		return;
+	}
+	else {
+		list temp = e.l;
+		printf(" (");
+		while (temp != NULL) {
+			print(temp->el);
+			temp = temp->next;
+		}
+		printf(") ");
 	}	
 }
 
@@ -155,10 +157,15 @@ void print(element e) {
 (including all its elements and its inner lists) 
 */
 void lfree(list l) {
-	if (l != NULL) {
-		list new_list = l->next;
-		free(l);
-		lfree(new_list);
+	list temp = l;
+	while (temp != NULL) {
+		if (temp->el.type == LIST) {
+			lfree(temp->el.l);
+		}
+
+		list val = temp->next;
+		free((void*)temp);
+		temp = val;
 	}
 }
 
@@ -175,13 +182,13 @@ void main() {
 	printf("Assignment 3\n");
 
 	// 1. test aasel
-	printf("--------test1---------\n");
+	printf("\n--------test1---------\n");
 	atom a = 'A';
 	element e1 = aasel(a);
 	print(e1);
 		
 	// 2. test  lasel
-	printf("--------test2---------\n");
+	printf("\n--------test2---------\n");
 	list l1 = (list)malloc(sizeof(struct _listnode)); 
 	l1->el = aasel('B');
 	l1->next = NULL;
@@ -189,7 +196,7 @@ void main() {
 	print(e2);
 	
 	// 3. test  cons
-	printf("--------test3---------\n");
+	printf("\n--------test3---------\n");
 	atom c = 'C';
 	element x3 = aasel(c);
 	list l2 = (list)malloc(sizeof(struct _listnode));
@@ -201,7 +208,7 @@ void main() {
 	//4. test append
     // first list: (a (b c) d)  
 	// second list: (e f g )
-	printf("--------test4---------\n");
+	printf("\n--------test4---------\n");
 	list c_l = create_list(aasel('c'));
 	list sub_first = cons(aasel('b'), c_l);
 	list d_l = create_list(aasel('d'));
@@ -210,6 +217,7 @@ void main() {
 		
 	// TODO: Isn't print() function supposed to print everything ? 
 	list temp = first;
+	printf("first list : ");
 	while (temp != NULL) {
 		print(temp->el);
 		temp = temp->next;
@@ -221,19 +229,27 @@ void main() {
 	list g_l = create_list(aasel('g'));
 	second->next = f_l;
 	f_l->next = g_l;
-
-	list appended_list = append(first, second);
-	list temp2 = appended_list;
+	
+	
+	list temp2 = second;
+	printf("\nsecond list : ");
 	while (temp2 != NULL) {
 		print(temp2->el);
 		temp2 = temp2->next;
 	}
-	
-	
+
+
+	list appended_list = append(first, second);
+	printf("\nappended list : ");
+	list temp3 = appended_list;
+	while (temp3 != NULL) {
+		print(temp3->el);
+		temp3 = temp3->next;
+	}
 	
 	//5. test car 
 	//  Input: (1 2 3)  Output: (1)
-	printf("--------test5---------\n");
+	printf("\n--------test5---------\n");
 	list one = create_list(aasel('1'));
 	list two = create_list(aasel('2'));
 	list three = create_list(aasel('3'));
@@ -241,10 +257,9 @@ void main() {
 	two->next = three;
 	print(car(lasel(one)));
 
-
 	//6. test cdr
 	//  Input: (5 6 7)  Output: (6 7)
-	printf("--------test6---------\n");
+	printf("\n--------test6---------\n");
 	list five= create_list(aasel('5'));
 	list six = create_list(aasel('6'));
 	list seven = create_list(aasel('7'));
@@ -252,20 +267,50 @@ void main() {
 	six->next = seven;
 
 	//TODO: Isn't print function supposed to do following .. ?
-	//print(cdr(lasel(eleven)));
 	list list6 = cdr(lasel(five));
+	print(lasel(list6));
+	/*
 	while (list6 != NULL) {
 		print(list6->el);
 		list6 = list6->next;
 	}
+	*/
 	
 	//7. test cddr
-	printf("--------test7---------\n");
+	//  Input: (4 8 9)  Output: (9)
+	printf("\n--------test7---------\n");
+	list w = create_list(aasel('w'));
+	list x = create_list(aasel('x'));
+	list y = create_list(aasel('y'));
+	list z = create_list(aasel('z'));
+	w->next = x;
+	x->next = y;
+	y->next = z;
+
+	list list7 = cddr(lasel(w));
+	print(lasel(list7));
+
+	//TODO: Isn't print function supposed to do following .. ?	
+	/*
+	list list7 = cddr(lasel(four));
+	while (list7 != NULL) {
+		print(list7->el);
+		list7 = list7->next;
+	}*/
 
 	//8. test print
-	printf("--------test8---------\n");
+	printf("\n--------test8---------\n");
+	print(lasel(one));
+	printf("\n");
+	print(lasel(w));
+	printf("\n");
+	print(lasel(list6));
+	printf("\n");
+	print(lasel(list7));
 
 	//9. test free
-	printf("--------test9---------\n");
+	printf("\n--------test9---------\n");
+	lfree(list6);
+	lfree(list7);
 }
 

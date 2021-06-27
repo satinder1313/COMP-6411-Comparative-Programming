@@ -20,6 +20,8 @@ typedef struct _listnode {
 
 const element NIL = { .type = LIST, .l = NULL };
 
+//definition of function
+void shallow_copy(list* node, element elem);
 
 /* 1. element aasel(atom a); AKA atom as element, returns an element whose content
 	is set to atom a.
@@ -59,18 +61,40 @@ list cons(element e, list l) {
 
 /*4. list append(LIST l1, list l2); that creates a new list whose elements are shallow
 copies of elements in l2 and l2, appended.
-
- TODO : revise this !
 */
 list append(list l1, list l2) {
-	list new_list = l1;
-	if (l1 == NULL) {
-		new_list = l2;
+	list new_list = NULL;
+	list first = l1;
+	
+	while (first != NULL) {
+		shallow_copy(&new_list, first->el);
+		first = first->next;
 	}
-	else {
-		new_list->next = l2;
+
+	list second = l2;
+	while (second != NULL) {
+		shallow_copy(&new_list, second->el);
+		second = second->next;
 	}
 	return new_list;
+}
+
+//helper function to shallow_copy inside append 
+void shallow_copy(list* node, element elem) {
+	list val = (list)malloc(sizeof(struct _listnode));
+	val->el = elem;
+	val->next = NULL;
+
+	if (*node == NULL) {
+		*node = val;
+	}
+	else {
+		list temp= *node;
+		while (temp->next != NULL) {
+			temp = temp->next;
+		}
+		temp->next = val;
+	}
 }
 
 /* 5. element car(element e); that returns head of the list, represented by e; returns
@@ -137,6 +161,15 @@ void lfree(list l) {
 	}
 }
 
+/* helper method for testing*/
+list create_list(element elem) {
+	list val = (list)malloc(sizeof(struct _listnode));
+	val->el = elem;
+	val->next = NULL;
+	return val;
+
+}
+
 void main() {
 	printf("Assignment 3\n");
 
@@ -165,8 +198,47 @@ void main() {
 	print(l3->next->el);
 
 	//4. test append
+    // first list: (a (b c) d)  
+	// second list: (e f g )
 	printf("--------test4---------\n");
+	list c_l = create_list(aasel('c'));
+	list sub_first = cons(aasel('b'), c_l);
+	list d_l = create_list(aasel('d'));
+	sub_first->next = d_l;
+	list first = cons(aasel('a'), sub_first);
 	
+	
+	// TODO: Isn't print() function supposed to print everything ? 
+	
+	list temp = first;
+	while (temp != NULL) {
+		print(temp->el);
+		temp = temp->next;
+	}
+	
+
+	// wrong expected output here 
+	list second = create_list(aasel('e'));
+	list f_l = create_list(aasel('f'));
+	list g_l = create_list(aasel('g'));
+	second->next = f_l;
+	f_l->next = g_l;
+
+	list appended_list = append(first, second);
+	list temp2 = appended_list;
+	while (temp2 != NULL) {
+		print(temp2->el);
+		temp2 = temp2->next;
+	}
+	
+
+
+	
+
+	
+	
+
+
 	
 	//5. test car 
 	printf("--------test5---------\n");

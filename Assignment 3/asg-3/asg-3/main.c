@@ -189,21 +189,20 @@ void main() {
 		
 	// 2. test  lasel
 	printf("\n--------test2---------\n");
-	list l1 = (list)malloc(sizeof(struct _listnode)); 
-	l1->el = aasel('B');
-	l1->next = NULL;
-	element e2 = lasel(l1);
+	list list2 = (list)malloc(sizeof(struct _listnode)); 
+	list2->el = aasel('B');
+	list2->next = NULL;
+	element e2 = lasel(list2);
 	print(e2);
 	
 	// 3. test  cons
 	printf("\n--------test3---------\n");
 	atom c = 'C';
 	element x3 = aasel(c);
-	list l2 = (list)malloc(sizeof(struct _listnode));
-	l2->el = aasel('D');
-	list l3 = cons(x3, l2);
-	print(l3->el);
-	print(l3->next->el);
+	list temp_list = (list)malloc(sizeof(struct _listnode));
+	temp_list->el = aasel('D');
+	list list3 = cons(x3, temp_list);
+	print(list3->el);
 
 	//4. test append
     // first list: (a (b c) d)  
@@ -255,6 +254,7 @@ void main() {
 	list three = create_list(aasel('3'));
 	one->next = two;
 	two->next = three;
+	list list5 = one;
 	print(car(lasel(one)));
 
 	//6. test cdr
@@ -310,6 +310,9 @@ void main() {
 
 	//9. test free
 	printf("\n--------test9---------\n");
+	lfree(list2);
+	lfree(appended_list);
+	lfree(list5);
 	lfree(list6);
 	lfree(list7);
 }

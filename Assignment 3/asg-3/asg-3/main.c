@@ -51,8 +51,8 @@ list cons(element e, list l) {
 	new_list->el = e;
 	new_list->next = l;
 
-	printf("cons :: new list %c \n", new_list->el.a);
-	printf("cons :: new list %c \n", new_list->next->el.a);
+	//printf("cons :: new list %c \n", new_list->el.a);
+	//printf("cons :: new list %c \n", new_list->next->el.a);
 	return new_list;
 }
 
@@ -140,31 +140,42 @@ void main() {
 	printf("Assignment 3\n");
 
 	// 1. test aasel
+	printf("--------test1---------\n");
 	atom a = 'A';
 	element x1 = aasel(a);
 	print(x1);
-	
+		
 	// 2. test  lasel
+	printf("--------test2---------\n");
 	list l1 = (list)malloc(sizeof(struct _listnode)); 
 	l1->el = aasel(a);
 	element x2 = lasel(l1);
 	print(x2);
-
+	
 	// 3. test  cons
+	printf("--------test3---------\n");
 	atom b = 'B';
 	element x3 = aasel(b);
 	list l2 = cons(x3, l1);
 
 	//4. test append
-
+	printf("--------test4---------\n");
+	list l3 = append(l1, l2);
+	//print(l3->el);
+	
 	//5. test car 
-
+	printf("--------test5---------\n");
+	
 	//6. test cdr
+	printf("--------test6---------\n");
 
 	//7. test cddr
+	printf("--------test7---------\n");
 
 	//8. test print
+	printf("--------test8---------\n");
 
 	//9. test free
+	printf("--------test9---------\n");
 }
 

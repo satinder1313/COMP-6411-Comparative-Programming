@@ -181,6 +181,37 @@ list create_list(element elem) {
 void main() {
 	printf("Assignment 3\n");
 
+	//Write a short code to create and display the following list:
+	printf("\n-------short code to create and display the following list: ---------\n");
+	list inner_list = create_list(aasel('b'));
+	inner_list->next = create_list(aasel('c'));
+
+	list inner_placeholder = (list)malloc(sizeof(struct _listnode));
+	inner_placeholder->el.type = LIST;
+	inner_placeholder->el.l = inner_list;
+
+	list main_list = create_list(aasel('a'));
+	main_list->next = inner_placeholder;
+	inner_placeholder->next = create_list(aasel('d'));
+	inner_placeholder->next->next = create_list(aasel('e'));
+	print(lasel(main_list));
+
+
+	//Additionally, print the car and the cdr of the above list; 
+	printf("\n--------print the car and the cdr of the above list ---------\n");
+	element car_main_list = car(lasel(main_list));
+	print(car_main_list);
+	
+	//also print the car of the car of the original list.
+	printf("\n--------print the car of the car of the original list---------\n");
+	element car_car_main_list = car(car_main_list);
+	print(car_car_main_list);
+	
+	lfree(main_list);
+
+
+	//------------------------------------------------------------------------
+	/*
 	// 1. test aasel
 	printf("\n--------test1---------\n");
 	atom a = 'A';
@@ -269,12 +300,7 @@ void main() {
 	//TODO: Isn't print function supposed to do following .. ?
 	list list6 = cdr(lasel(five));
 	print(lasel(list6));
-	/*
-	while (list6 != NULL) {
-		print(list6->el);
-		list6 = list6->next;
-	}
-	*/
+	
 	
 	//7. test cddr
 	//  Input: (4 8 9)  Output: (9)
@@ -289,15 +315,7 @@ void main() {
 
 	list list7 = cddr(lasel(w));
 	print(lasel(list7));
-
-	//TODO: Isn't print function supposed to do following .. ?	
-	/*
-	list list7 = cddr(lasel(four));
-	while (list7 != NULL) {
-		print(list7->el);
-		list7 = list7->next;
-	}*/
-
+		
 	//8. test print
 	printf("\n--------test8---------\n");
 	print(lasel(one));
@@ -315,5 +333,7 @@ void main() {
 	lfree(list5);
 	lfree(list6);
 	lfree(list7);
+
+	*/
 }
 

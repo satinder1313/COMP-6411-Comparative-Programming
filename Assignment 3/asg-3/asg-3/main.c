@@ -201,6 +201,9 @@ void main() {
 	printf("\n--------print the car and the cdr of the above list ---------\n");
 	element car_main_list = car(lasel(main_list));
 	print(car_main_list);
+
+	printf("\n cdr: ");
+	print(lasel(cdr(lasel(main_list))));
 	
 	//also print the car of the car of the original list.
 	printf("\n--------print the car of the car of the original list---------\n");
